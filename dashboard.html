@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Financial Performance Report</title>
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet"
+>
+
+<style>
+
+:root {
+    --bg1: #0b0c0e;
+    --bg2: #6f8a88;
+    --panel: rgba(30,32,34,.82);
+    --card: rgba(20,22,24,.7);
+    --tx: #f2f5f5;
+    --mut: #a3adad;
+    --acc: #5ff0d0;
+    --bar: #8d9796;
+    --neg: #ff6b6b;
+    --pill: #f2f5f5;
+    --pilltx: #111;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    color: var(--tx);
+    background:
+        linear-gradient(
+            115deg,
+            var(--bg1) 20%,
+            var(--bg2)
+        );
+    padding: 16px;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+
+.nav {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+
+    background: var(--card);
+
+    border-radius: 30px;
+
+    padding: 6px;
+
+    max-width: 100%;
+
+    margin-bottom: 16px;
+}
+
+.pill {
+    border: 0;
+
+    background: none;
+
+    color: var(--tx);
+
+    font:
+        500 12px inherit;
+
+    font-family: inherit;
+
+    padding: 9px 18px;
+
+    border-radius: 20px;
+
+    cursor: pointer;
+}
+
+.pill.on {
+    background: var(--pill);
+
+    color: var(--pilltx);
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+
+.grid {
+    display: grid;
+
+    gap: 14px;
+}
+
+.g4 {
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(190px, 1fr)
+        );
+}
+
+.g2 {
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(320px, 1fr)
+        );
+}
+
+/* ============================================================
+   PANELS
+   ============================================================ */
+
+.panel {
+    background: var(--panel);
+
+    border-radius: 22px;
+
+    padding: 20px;
+}
+
+h2 {
+    font-size: 13px;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+    margin: 0 0 14px;
+
+    font-weight: 500;
+}
+
+/* ============================================================
+   KPI
+   ============================================================ */
+
+.kpi {
+    background: var(--card);
+
+    border-radius: 18px;
+
+    padding: 16px;
+
+    border-bottom:
+        3px solid var(--acc);
+}
+
+.kpi small {
+    color: var(--mut);
+
+    font-size: 12px;
+}
+
+.kpi b {
+    display: block;
+
+    font-size: 28px;
+
+    margin:
+        6px 0 2px;
+}
+
+.up {
+    color: var(--acc);
+}
+
+.dn {
+    color: var(--neg);
+}
+
+/* ============================================================
+   MONTHLY COLUMNS
+   ============================================================ */
+
+.cols {
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 5px;
+
+    height: 190px;
+}
+
+.col {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    height: 100%;
+
+    font-size: 10px;
+
+    color: var(--mut);
+}
+
+.col i {
+    display: block;
+
+    width: 100%;
+
+    background: var(--bar);
+
+    border-radius:
+        3px 3px 0 0;
+
+    min-height: 2px;
+}
+
+.col i.hi {
+    background: var(--acc);
+}
+
+.col span {
+    margin-top: 4px;
+}
+
+/* ============================================================
+   BAR CHARTS
+   ============================================================ */
+
+.row {
+    display: grid;
+
+    grid-template-columns:
+        110px 1fr 90px;
+
+    gap: 10px;
+
+    align-items: center;
+
+    font-size: 12px;
+
+    margin: 9px 0;
+}
+
+.tr {
+    background:
+        rgba(
+            128,
+            140,
+            140,
+            .25
+        );
+
+    border-radius: 6px;
+
+    height: 14px;
+
+    overflow: hidden;
+}
+
+.tr i {
+    display: block;
+
+    height: 100%;
+
+    background: var(--bar);
+
+    border-radius: 6px;
+}
+
+.tr i.a {
+    background: var(--acc);
+}
+
+.tr i.n {
+    background: var(--neg);
+}
+
+.row em {
+    font-style: normal;
+
+    text-align: right;
+
+    color: var(--mut);
+}
+
+/* ============================================================
+   DONUT
+   ============================================================ */
+
+.donut {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    flex-wrap: wrap;
+}
+
+.donut svg {
+    width: 150px;
+
+    height: 150px;
+}
+
+/* ============================================================
+   INSIGHTS
+   ============================================================ */
+
+.ins {
+    background: var(--card);
+
+    border-left:
+        3px solid var(--acc);
+
+    border-radius: 12px;
+
+    padding:
+        14px 16px;
+
+    margin-bottom: 12px;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+.ins b {
+    color: var(--acc);
+}
+
+.ins.w {
+    border-color: var(--neg);
+}
+
+.ins.w b {
+    color: var(--neg);
+}
+
+/* ============================================================
+   COMMON
+   ============================================================ */
+
+.note {
+    color: var(--mut);
+
+    font-size: 12px;
+
+    margin-top: 10px;
+}
+
+.page {
+    display: none;
+}
+
+.page.on {
+    display: block;
+}
+
+/* ============================================================
+   LIVE STATUS
+   ============================================================ */
+
+.status {
+    position: fixed;
+
+    right: 18px;
+
+    bottom: 18px;
+
+    background: var(--card);
+
+    padding:
+        9px 13px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    color: var(--mut);
+
+    backdrop-filter:
+        blur(10px);
+
+    z-index: 20;
+}
+
+.status.ok {
+    color: var(--acc);
+}
+
+.status.error {
+    color: var(--neg);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     MAIN NAVIGATION
+     ============================================================ -->
+
+<div
+    class="nav"
+    id="nav">
+</div>
+
+
+<!-- ============================================================
+     OVERVIEW
+     ============================================================ -->
+
+<div
+    id="p0"
+    class="page on">
+
+    <div
+        class="nav"
+        id="ynav"
+        style="width:max-content">
+    </div>
+
+
+    <!-- KPI CARDS -->
+
+    <div
+        class="grid g4"
+        id="kpis">
+    </div>
+
+
+    <!-- MONTHLY + PROFIT -->
+
+    <div
+        class="grid g2"
+        style="margin-top:14px">
+
+        <div class="panel">
+
+            <h2>
+                Monthly trend
+            </h2>
+
+            <div
+                class="nav"
+                id="mnav"
+                style="width:max-content">
+            </div>
+
+            <div
+                class="cols"
+                id="mcols">
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2>
+                Profit margin
+            </h2>
+
+            <div
+                class="donut"
+                id="don">
+            </div>
+
+            <div
+                class="note"
+                id="dnote">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     SEGMENTS & PRODUCTS
+     ============================================================ -->
+
+<div
+    id="p1"
+    class="page">
+
+    <div class="grid g2">
+
+        <div class="panel">
+
+            <h2>
+                Sales by segment
+            </h2>
+
+            <div id="seg"></div>
+
+            <div class="note">
+                Bar = net sales · right = profit margin
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2>
+                Sales by product
+            </h2>
+
+            <div id="prod"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     GEOGRAPHY
+     ============================================================ -->
+
+<div
+    id="p2"
+    class="page">
+
+    <div class="grid g2">
+
+        <div class="panel">
+
+            <h2>
+                Sales by country
+            </h2>
+
+            <div id="cty"></div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2>
+                Margin by country
+            </h2>
+
+            <div id="ctm"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     DISCOUNTS
+     ============================================================ -->
+
+<div
+    id="p3"
+    class="page">
+
+    <div class="grid g2">
+
+        <div class="panel">
+
+            <h2>
+                Units sold by discount band
+            </h2>
+
+            <div id="bu"></div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2>
+                Profit margin by discount band
+            </h2>
+
+            <div id="bm"></div>
+
+            <div class="note">
+                Deeper discounts lift volume but erode margin.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     INSIGHTS
+     ============================================================ -->
+
+<div
+    id="p4"
+    class="page">
+
+    <div class="panel">
+
+        <h2>
+            Key insights
+        </h2>
+
+        <div id="ins"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     LIVE STATUS
+     IMPORTANT:
+     This MUST appear before the JavaScript.
+     ============================================================ -->
+
+<div
+    class="status"
+    id="status">
+
+    Connecting…
+
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+
+<script>
+
+/* ============================================================
+   GLOBAL STATE
+   ============================================================ */
+
+let DATA = null;
+
+let yr = "All";
+
+let met = 2;
+
+let cur = 0;
+
+
+/* ============================================================
+   FORMATTING
+   ============================================================ */
+
+const f = n => {
+
+    n = Number(n || 0);
+
+    if (
+        Math.abs(n) >= 1000000
+    ) {
+
+        return (
+            n / 1000000
+        ).toFixed(2) + "M";
+
+    }
+
+    if (
+        Math.abs(n) >= 1000
+    ) {
+
+        return (
+            n / 1000
+        ).toFixed(0) + "K";
+
+    }
+
+    return n.toFixed(0);
+};
+
+
+const pc = (
+    a,
+    b
+) => {
+
+    a = Number(a || 0);
+
+    b = Number(b || 0);
+
+    if (!b) {
+
+        return "0.0%";
+
+    }
+
+    return (
+        a / b * 100
+    ).toFixed(1) + "%";
+
+};
+
+
+const $ = id =>
+    document.getElementById(id);
+
+
+/* ============================================================
+   PAGES
+   ============================================================ */
+
+const pages = [
+
+    "Overview",
+
+    "Segments & Products",
+
+    "Geography",
+
+    "Discounts",
+
+    "Insights"
+
+];
+
+
+/* ============================================================
+   NAVIGATION PILLS
+   ============================================================ */
+
+function pills(
+    elementId,
+    items,
+    selected,
+    callback
+) {
+
+    const element =
+        $(elementId);
+
+    if (!element) {
+
+        console.error(
+            "Missing element:",
+            elementId
+        );
+
+        return;
+
+    }
+
+
+    element.innerHTML =
+        items
+            .map(
+                (
+                    text,
+                    index
+                ) => {
+
+                    return `
+                        <button
+                            class="pill ${
+                                selected(
+                                    index,
+                                    text
+                                )
+                                    ? "on"
+                                    : ""
+                            }"
+                            data-i="${index}">
+
+                            ${text}
+
+                        </button>
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    element.onclick =
+        event => {
+
+            const index =
+                event.target.dataset.i;
+
+            if (
+                index !== undefined
+            ) {
+
+                callback(
+                    Number(index)
+                );
+
+            }
+
+        };
+
+}
+
+
+/* ============================================================
+   MAIN NAVIGATION
+   ============================================================ */
+
+function nav() {
+
+    pills(
+
+        "nav",
+
+        pages,
+
+        index =>
+            index === cur,
+
+        index => {
+
+            cur = index;
+
+
+            document
+                .querySelectorAll(
+                    ".page"
+                )
+                .forEach(
+                    (
+                        page,
+                        pageIndex
+                    ) => {
+
+                        page.classList.toggle(
+
+                            "on",
+
+                            pageIndex ===
+                            index
+
+                        );
+
+                    }
+                );
+
+
+            nav();
+
+        }
+
+    );
+
+}
+
+
+/* ============================================================
+   BAR CHART
+   ============================================================ */
+
+function bars(
+
+    elementId,
+
+    rows,
+
+    valueFunction,
+
+    labelFunction,
+
+    classFunction
+
+) {
+
+    const element =
+        $(elementId);
+
+
+    if (!element) {
+
+        console.error(
+            "Missing chart element:",
+            elementId
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !rows ||
+        rows.length === 0
+    ) {
+
+        element.innerHTML =
+            `
+                <div class="note">
+                    No data
+                </div>
+            `;
+
+        return;
+
+    }
+
+
+    const maxValue =
+        Math.max(
+            ...rows.map(
+                valueFunction
+            ),
+
+            1
+        );
+
+
+    element.innerHTML =
+        rows
+            .map(
+                row => {
+
+                    const value =
+                        Math.max(
+                            0,
+                            Number(
+                                valueFunction(
+                                    row
+                                ) || 0
+                            )
+                        );
+
+
+                    const width =
+                        value /
+                        maxValue *
+                        100;
+
+
+                    const cssClass =
+                        classFunction
+                            ? classFunction(row)
+                            : "";
+
+
+                    return `
+
+                        <div class="row">
+
+                            <span>
+                                ${row[0]}
+                            </span>
+
+
+                            <div class="tr">
+
+                                <i
+                                    class="${cssClass}"
+                                    style="
+                                        width:${width}%;
+                                    ">
+                                </i>
+
+                            </div>
+
+
+                            <em>
+                                ${labelFunction(row)}
+                            </em>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+/* ============================================================
+   RENDER DASHBOARD
+   ============================================================ */
+
+function render() {
+
+    console.log(
+        "Rendering dashboard..."
+    );
+
+
+    if (!DATA) {
+
+        console.warn(
+            "No DATA available."
+        );
+
+        return;
+
+    }
+
+
+    const M =
+        DATA.monthly || [];
+
+
+    const SEG =
+        DATA.segment || [];
+
+
+    const PRO =
+        DATA.product || [];
+
+
+    const CTY =
+        DATA.country || [];
+
+
+    const BND =
+        DATA.discount || [];
+
+
+    const Y =
+        DATA.years ||
+        ["All"];
+
+
+    /* ========================================================
+       FILTER
+       ======================================================== */
+
+    const d =
+        yr === "All"
+
+            ? M
+
+            : M.filter(
+                row =>
+                    row[0] ==
+                    Number(yr)
+            );
+
+
+    /* ========================================================
+       TOTALS
+       ======================================================== */
+
+    const S =
+        d.reduce(
+            (
+                sum,
+                row
+            ) =>
+                sum +
+                Number(
+                    row[2] || 0
+                ),
+
+            0
+        );
+
+
+    const P =
+        d.reduce(
+            (
+                sum,
+                row
+            ) =>
+                sum +
+                Number(
+                    row[3] || 0
+                ),
+
+            0
+        );
+
+
+    const U =
+        d.reduce(
+            (
+                sum,
+                row
+            ) =>
+                sum +
+                Number(
+                    row[4] || 0
+                ),
+
+            0
+        );
+
+
+    console.log(
+        "Dashboard totals:",
+        {
+            sales: S,
+            profit: P,
+            units: U
+        }
+    );
+
+
+    /* ========================================================
+       YEAR NAVIGATION
+       ======================================================== */
+
+    pills(
+
+        "ynav",
+
+        Y,
+
+        index =>
+            Y[index] == yr,
+
+        index => {
+
+            yr =
+                Y[index];
+
+            render();
+
+        }
+
+    );
+
+
+    /* ========================================================
+       KPI CARDS
+       ======================================================== */
+
+    const kpis = [
+
+        [
+            "Net sales",
+            f(S),
+            DATA.yoy_sales
+        ],
+
+        [
+            "Profit",
+            f(P),
+            DATA.yoy_profit
+        ],
+
+        [
+            "Profit margin",
+            pc(P, S),
+            DATA.margin_change
+        ],
+
+        [
+            "Units sold",
+            f(U),
+            DATA.yoy_units
+        ]
+
+    ];
+
+
+    const kpiElement =
+        $("kpis");
+
+
+    if (kpiElement) {
+
+        kpiElement.innerHTML =
+
+            kpis
+                .map(
+                    x => {
+
+                        return `
+
+                            <div class="kpi">
+
+                                <small>
+                                    ${x[0]}
+                                </small>
+
+                                <b>
+                                    ${x[1]}
+                                </b>
+
+                                <small class="up">
+                                    ▲
+                                    ${x[2] || "—"}
+                                </small>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
+
+    /* ========================================================
+       MONTHLY CHART
+       ======================================================== */
+
+    const monthNames = [
+
+        "J",
+        "F",
+        "M",
+        "A",
+        "M",
+        "J",
+        "J",
+        "A",
+        "S",
+        "O",
+        "N",
+        "D"
+
+    ];
+
+
+    const maxMonth =
+        Math.max(
+
+            ...d.map(
+                row =>
+                    Number(
+                        row[met] || 0
+                    )
+            ),
+
+            1
+
+        );
+
+
+    const top =
+        [
+            ...d
+        ]
+        .sort(
+
+            (
+                a,
+                b
+            ) =>
+
+                Number(
+                    b[met] || 0
+                )
+
+                -
+
+                Number(
+                    a[met] || 0
+                )
+
+        )
+        .slice(
+            0,
+            2
+        );
+
+
+    const monthlyElement =
+        $("mcols");
+
+
+    if (monthlyElement) {
+
+        monthlyElement.innerHTML =
+
+            d
+                .map(
+                    row => {
+
+                        const height =
+
+                            Number(
+                                row[met] ||
+                                0
+                            )
+
+                            /
+
+                            maxMonth
+
+                            *
+
+                            85;
+
+
+                        const highlighted =
+                            top.includes(row)
+                                ? "hi"
+                                : "";
+
+
+                        const label =
+
+                            monthNames[
+                                Number(
+                                    row[1]
+                                ) - 1
+                            ]
+
+                            +
+
+                            (
+                                yr === "All"
+
+                                    ?
+
+                                    "'" +
+                                    String(
+                                        row[0]
+                                    ).slice(2)
+
+                                    :
+
+                                    ""
+                            );
+
+
+                        return `
+
+                            <div
+                                class="col"
+                                title="
+                                    ${row[0]}-
+                                    ${row[1]}:
+                                    ${f(row[met])}
+                                ">
+
+                                <i
+                                    class="${highlighted}"
+                                    style="
+                                        height:${height}%;
+                                    ">
+                                </i>
+
+                                <span>
+                                    ${label}
+                                </span>
+
+                            </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
+
+    /* ========================================================
+       MONTHLY METRIC BUTTONS
+       ======================================================== */
+
+    pills(
+
+        "mnav",
+
+        [
+            "Sales",
+            "Profit",
+            "Units"
+        ],
+
+        index =>
+            index + 2 === met,
+
+        index => {
+
+            met =
+                index + 2;
+
+            render();
+
+        }
+
+    );
+
+
+    /* ========================================================
+       DONUT
+       ======================================================== */
+
+    const margin =
+        S
+            ? P / S
+            : 0;
+
+
+    const circumference =
+        2 *
+        Math.PI *
+        60;
+
+
+    const donut =
+        $("don");
+
+
+    if (donut) {
+
+        donut.innerHTML = `
+
+            <svg
+                viewBox="0 0 150 150">
+
+                <circle
+                    cx="75"
+                    cy="75"
+                    r="60"
+                    fill="none"
+                    stroke="var(--bar)"
+                    stroke-width="12"
+                    opacity=".5">
+                </circle>
+
+
+                <circle
+                    cx="75"
+                    cy="75"
+                    r="60"
+                    fill="none"
+                    stroke="var(--acc)"
+                    stroke-width="12"
+                    stroke-linecap="round"
+
+                    stroke-dasharray="
+                        ${circumference * margin}
+                        ${circumference}
+                    "
+
+                    transform="
+                        rotate(-90 75 75)
+                    ">
+                </circle>
+
+
+                <text
+                    x="75"
+                    y="80"
+                    text-anchor="middle"
+                    fill="var(--tx)"
+                    font-size="22"
+                    font-weight="700">
+
+                    ${pc(P, S)}
+
+                </text>
+
+            </svg>
+
+
+            <div>
+
+                <b
+                    style="
+                        font-size:22px;
+                    ">
+
+                    ${f(S - P)}
+
+                </b>
+
+                <br>
+
+                <small class="note">
+
+                    Cost of sales &amp;
+                    discounts absorb most
+                    of every sales dollar.
+
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* ========================================================
+       DATA SOURCE NOTE
+       ======================================================== */
+
+    const dnote =
+        $("dnote");
+
+
+    if (dnote) {
+
+        dnote.textContent =
+            "Live data from configured Excel source";
+
+    }
+
+
+    /* ========================================================
+       MARGIN FUNCTION
+       ======================================================== */
+
+    const marginFunction =
+        row =>
+
+            pc(
+
+                Number(
+                    row[2] || 0
+                ),
+
+                Number(
+                    row[1] || 0
+                )
+
+            );
+
+
+    /* ========================================================
+       SEGMENTS
+       ======================================================== */
+
+    bars(
+
+        "seg",
+
+        SEG,
+
+        row =>
+            Number(
+                row[1] || 0
+            ),
+
+        row =>
+            f(row[1]) +
+            " · " +
+            marginFunction(row),
+
+        row =>
+            Number(
+                row[2] || 0
+            ) < 0
+
+                ? "n"
+
+                : "a"
+
+    );
+
+
+    /* ========================================================
+       PRODUCTS
+       ======================================================== */
+
+    bars(
+
+        "prod",
+
+        PRO,
+
+        row =>
+            Number(
+                row[1] || 0
+            ),
+
+        row =>
+            f(row[1]) +
+            " · " +
+            marginFunction(row),
+
+        row =>
+            PRO.length &&
+            row[0] ===
+            PRO[0][0]
+
+                ? "a"
+
+                : ""
+
+    );
+
+
+    /* ========================================================
+       COUNTRY SALES
+       ======================================================== */
+
+    bars(
+
+        "cty",
+
+        CTY,
+
+        row =>
+            Number(
+                row[1] || 0
+            ),
+
+        row =>
+            f(row[1])
+
+    );
+
+
+    /* ========================================================
+       COUNTRY MARGIN
+       ======================================================== */
+
+    bars(
+
+        "ctm",
+
+        CTY,
+
+        row => {
+
+            const sales =
+                Number(
+                    row[1] || 0
+                );
+
+            return sales
+                ? Number(
+                    row[2] || 0
+                ) / sales
+
+                : 0;
+
+        },
+
+        marginFunction,
+
+        row =>
+            row[0] ===
+            CTY[0]?.[0]
+
+                ? "n"
+
+                : "a"
+
+    );
+
+
+    /* ========================================================
+       DISCOUNT UNITS
+       ======================================================== */
+
+    bars(
+
+        "bu",
+
+        BND,
+
+        row =>
+            Number(
+                row[3] || 0
+            ),
+
+        row =>
+            f(row[3])
+
+    );
+
+
+    /* ========================================================
+       DISCOUNT MARGIN
+       ======================================================== */
+
+    bars(
+
+        "bm",
+
+        BND,
+
+        row => {
+
+            const sales =
+                Number(
+                    row[1] || 0
+                );
+
+            return sales
+                ? Number(
+                    row[2] || 0
+                ) / sales
+
+                : 0;
+
+        },
+
+        marginFunction,
+
+        row =>
+            row[0] === "High"
+
+                ? "n"
+
+                : "a"
+
+    );
+
+
+    /* ========================================================
+       INSIGHTS
+       ======================================================== */
+
+    const insightElement =
+        $("ins");
+
+
+    if (insightElement) {
+
+        const insights =
+            DATA.insights ||
+            [];
+
+
+        insightElement.innerHTML =
+
+            insights
+
+                .map(
+                    x => `
+
+                        <div
+                            class="
+                                ins
+                                ${x[0] || ""}
+                            ">
+
+                            ${x[1]}
+
+                        </div>
+
+                    `
+                )
+
+                .join("")
+
+            +
+
+            `
+
+                <div class="note">
+
+                    Live data:
+                    Financial Sample.xlsx.
+
+                    Updated:
+                    ${DATA.updated_at || "—"}
+
+                </div>
+
+            `;
+
+    }
+
+
+    console.log(
+        "Dashboard rendered successfully."
+    );
+
+}
+
+
+/* ============================================================
+   LOAD DATA FROM FASTAPI
+   ============================================================ */
+
+async function loadData() {
+
+    const status =
+        $("status");
+
+
+    try {
+
+        console.log(
+            "Loading /api/data..."
+        );
+
+
+        const response =
+
+            await fetch(
+
+                "/api/data?ts=" +
+                Date.now(),
+
+                {
+                    cache:
+                        "no-store"
+                }
+
+            );
+
+
+        console.log(
+            "API response status:",
+            response.status
+        );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+
+                "API returned HTTP " +
+                response.status
+
+            );
+
+        }
+
+
+        DATA =
+            await response.json();
+
+
+        console.log(
+            "API data received:",
+            DATA
+        );
+
+
+        if (DATA.error) {
+
+            throw new Error(
+                DATA.error
+            );
+
+        }
+
+
+        /* Render dashboard */
+
+        render();
+
+
+        /* Update status */
+
+        if (status) {
+
+            status.textContent =
+
+                "● Live · " +
+                (
+                    DATA.updated_at ||
+                    "Updated"
+                );
+
+
+            status.classList.add(
+                "ok"
+            );
+
+            status.classList.remove(
+                "error"
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "DASHBOARD ERROR:",
+            error
+        );
+
+
+        if (status) {
+
+            status.textContent =
+
+                "⚠ " +
+                error.message;
+
+
+            status.classList.add(
+                "error"
+            );
+
+            status.classList.remove(
+                "ok"
+            );
+
+        }
+
+    }
+
+}
+
+
+/* ============================================================
+   START DASHBOARD
+   ============================================================ */
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => {
+
+        console.log(
+            "Dashboard DOM ready."
+        );
+
+
+        /* Build navigation */
+
+        nav();
+
+
+        /* First data load */
+
+        loadData();
+
+
+        /*
+           Automatically check for
+           new data every 5 seconds.
+        */
+
+        setInterval(
+
+            loadData,
+
+            5000
+
+        );
+
+    }
+
+);
+
+</script>
+
+</body>
+</html>
